@@ -17,9 +17,16 @@ const schema = yup
   })
   .required();
 
+  const onSubmit = (data: IFormLogin) => {
+    // Lógica a ser executada quando o formulário for enviado
+    console.log(data);
+    alert("Login realizado com sucesso!");
+  };
+
 const Login = () => {
   const {
     control,
+    handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormLogin>({
     resolver: yupResolver(schema),
@@ -30,10 +37,11 @@ const Login = () => {
 
   return (
     <Container>
-      <LoginContainer>
+      <LoginContainer onSubmit={handleSubmit(onSubmit)}>
         <Column>
           <Title>Login</Title>
           <Spacing />
+          
           <Input
             name="email"
             placeholder="Email"
@@ -49,7 +57,8 @@ const Login = () => {
             errorMessage={errors?.password?.message}
           />
           <Spacing />
-          <Button title="Entrar" />
+          <Button title="Entrar" type="submit" disabled={!isValid} />
+          
         </Column>
       </LoginContainer>
     </Container>
